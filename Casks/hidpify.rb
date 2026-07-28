@@ -9,7 +9,7 @@ cask "hidpify" do
 
   # The menu bar app is a pure frontend; the CLI/daemon does the real work.
   depends_on formula: "raeseoklee/tap/hidpify"
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Hidpify.app"
 
