@@ -13,11 +13,21 @@ cask "hidpify" do
 
   app "Hidpify.app"
 
+  # The app isn't notarized (ad-hoc signed), so macOS Gatekeeper would block
+  # the first launch. Clear the quarantine flag on install so it opens
+  # normally. (You are trusting this third-party tap by installing it.)
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Hidpify.app"],
+                   sudo: false
+  end
+
   caveats <<~EOS
-    Hidpify.app uses a private CoreGraphics API and can't be notarized, so
-    macOS Gatekeeper blocks the first launch. Open it once with a
-    right-click -> Open, or clear the quarantine flag:
+    Hidpify.app isn't notarized (ad-hoc signed), so macOS Gatekeeper blocks
+    the first launch. Allow it by running once:
       xattr -dr com.apple.quarantine "/Applications/Hidpify.app"
+    (On macOS 15 the old right-click -> Open trick no longer works; you can
+    instead click "Open Anyway" in System Settings > Privacy & Security.)
 
     Enable "Start at Login" from the app (or run `hidpify install-agent`) to
     keep the daemon running across logins.
