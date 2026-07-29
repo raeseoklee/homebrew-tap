@@ -1,57 +1,45 @@
 cask "hidpify" do
-  version "0.1.4"
-  sha256 "1fe2dda9340effb257159a9c116a40509bf768cb7882d7cb286a960a25755767"
+  version "0.1.5"
+  sha256 "8184c8aca714e2977cb01ef232751cfe4cd2c9b973533f86b1e10c600ded8dc5"
 
   url "https://github.com/raeseoklee/hidpify/releases/download/v#{version}/Hidpify.app.zip"
   name "Hidpify"
   desc "Menu bar app to force HiDPI on external displays"
   homepage "https://github.com/raeseoklee/hidpify"
 
-  # The menu bar app is a pure frontend; the CLI/daemon does the real work.
+  # The menu bar app is a pure frontend; the CLI/daemon (this formula) does the
+  # real work, and the app points the login daemon at its stable binary.
   depends_on formula: "raeseoklee/tap/hidpify"
   depends_on macos: :sonoma
 
   app "Hidpify.app"
 
-  postflight do
-    # The app isn't notarized (ad-hoc signed), so macOS Gatekeeper would block
-    # the first launch — clear the quarantine flag so it opens normally.
-    # (You are trusting this third-party tap by installing it.)
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Hidpify.app"],
-                   sudo:         false,
-                   must_succeed: false
-    # Install the LaunchAgent so the daemon starts now and at every login,
-    # so the tool works immediately after install. Remove with
-    # `hidpify uninstall-agent`.
-    system_command "#{HOMEBREW_PREFIX}/bin/hidpify",
-                   args:         ["install-agent"],
-                   sudo:         false,
-                   must_succeed: false
-  end
+  # Declarative only — no postflight/uninstall_preflight arbitrary code. That
+  # keeps the cask "trusted" (so a plain `brew upgrade` handles it) and keeps the
+  # daemon's lifecycle decoupled from cask operations: `brew upgrade`/`uninstall`
+  # never remove the LaunchAgent, so the daemon can't be left half-torn-down.
+  # The daemon is installed by the app on first launch (self-heal) and removed
+  # by `--zap` (below) or `hidpify uninstall-agent`.
+  uninstall quit: "dev.irae.hidpify.app"
 
-  uninstall_preflight do
-    # postflight installed a LaunchAgent outside Homebrew's tracking, so removing
-    # the app alone would leave the daemon running and registered. Tear it down
-    # (stop the daemon + delete the plist) so uninstall leaves nothing behind.
-    system_command "#{HOMEBREW_PREFIX}/bin/hidpify",
-                   args:         ["uninstall-agent"],
-                   sudo:         false,
-                   must_succeed: false
-  end
-
-  zap trash: [
-    "~/.config/hidpify",
-    "~/Library/Logs/hidpify.log",
-  ]
+  zap launchctl: "dev.irae.hidpify",
+      trash:     [
+        "~/Library/LaunchAgents/dev.irae.hidpify.plist",
+        "~/.config/hidpify",
+        "~/Library/Logs/hidpify.log",
+      ]
 
   caveats <<~EOS
-    Setup ran automatically: the app's quarantine flag was cleared (it isn't
-    notarized) and the hidpify daemon was registered to run now and at login.
+    Hidpify isn't notarized (it's ad-hoc signed), so open it once after install:
+    launch Hidpify from /Applications and, if macOS blocks it, allow it under
+    System Settings → Privacy & Security → "Open Anyway" (or run once:
+      xattr -dr com.apple.quarantine /Applications/Hidpify.app).
+    Opening the app the first time also sets up the background daemon, which then
+    runs at every login.
 
-    If macOS still blocks the app on first launch, run once:
-      xattr -dr com.apple.quarantine "/Applications/Hidpify.app"
-
-    To stop the daemon from running at login:  hidpify uninstall-agent
+    Update:      brew upgrade --cask raeseoklee/tap/hidpify
+    Remove all:  brew uninstall --zap --cask raeseoklee/tap/hidpify
+                 (a plain uninstall removes the app but leaves the daemon; use
+                  --zap, or run `hidpify uninstall-agent`, to remove it too)
   EOS
 end
