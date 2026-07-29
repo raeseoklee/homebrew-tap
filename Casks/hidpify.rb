@@ -30,6 +30,21 @@ cask "hidpify" do
                    must_succeed: false
   end
 
+  uninstall_preflight do
+    # postflight installed a LaunchAgent outside Homebrew's tracking, so removing
+    # the app alone would leave the daemon running and registered. Tear it down
+    # (stop the daemon + delete the plist) so uninstall leaves nothing behind.
+    system_command "#{HOMEBREW_PREFIX}/bin/hidpify",
+                   args:         ["uninstall-agent"],
+                   sudo:         false,
+                   must_succeed: false
+  end
+
+  zap trash: [
+    "~/.config/hidpify",
+    "~/Library/Logs/hidpify.log",
+  ]
+
   caveats <<~EOS
     Setup ran automatically: the app's quarantine flag was cleared (it isn't
     notarized) and the hidpify daemon was registered to run now and at login.
