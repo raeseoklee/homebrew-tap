@@ -1,8 +1,8 @@
 class Hidpify < Formula
   desc "Force HiDPI on macOS external displays via a virtual display"
   homepage "https://github.com/raeseoklee/hidpify"
-  url "https://github.com/raeseoklee/hidpify/archive/refs/tags/v0.1.2.tar.gz"
-  sha256 "a0c6228c8a719fbd8941bb012b09c957e53011417ac2c806eea82bc66f5cd3a5"
+  url "https://github.com/raeseoklee/hidpify/archive/refs/tags/v0.1.3.tar.gz"
+  sha256 "56ee08189c68a2e0cb882fadc69aeb0d650b7623c4442bff046bc35829e12322"
   license "Apache-2.0"
   head "https://github.com/raeseoklee/hidpify.git", branch: "main"
 
