@@ -14,12 +14,23 @@ cask "hidpify" do
 
   app "Hidpify.app"
 
-  # Declarative only — no postflight/uninstall_preflight arbitrary code. That
-  # keeps the cask "trusted" (so a plain `brew upgrade` handles it) and keeps the
-  # daemon's lifecycle decoupled from cask operations: `brew upgrade`/`uninstall`
-  # never remove the LaunchAgent, so the daemon can't be left half-torn-down.
-  # The daemon is installed by the app on first launch (self-heal) and removed
-  # by `--zap` (below) or `hidpify uninstall-agent`.
+  # ⚠️ DO NOT REMOVE THIS postflight. The app is ad-hoc signed (not notarized),
+  # so if it stays quarantined, macOS Sequoia shows "Apple can't verify … malware"
+  # whose DEFAULT button is "Move to Trash" — users click it and the app is
+  # DELETED. Clearing the quarantine flag here makes it open normally. This was
+  # once removed to make the cask "declarative/trusted" and it caused exactly that
+  # regression; it must stay until the app is notarized. It does NOT touch the
+  # daemon (kept decoupled — the app self-heals it). Trade-off: this arbitrary
+  # code marks the cask "untrusted", so a plain `brew upgrade` skips it — update
+  # the app with `brew upgrade --cask …`. That friction is acceptable; a deleted
+  # app is not.
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Hidpify.app"],
+                   sudo:         false,
+                   must_succeed: false
+  end
+
   uninstall quit: "dev.irae.hidpify.app"
 
   zap launchctl: "dev.irae.hidpify",
@@ -30,12 +41,11 @@ cask "hidpify" do
       ]
 
   caveats <<~EOS
-    Hidpify isn't notarized (it's ad-hoc signed), so open it once after install:
-    launch Hidpify from /Applications and, if macOS blocks it, allow it under
-    System Settings → Privacy & Security → "Open Anyway" (or run once:
-      xattr -dr com.apple.quarantine /Applications/Hidpify.app).
-    Opening the app the first time also sets up the background daemon, which then
-    runs at every login.
+    The installer clears the app's Gatekeeper quarantine flag (the app is ad-hoc
+    signed, not notarized), so it opens normally. Just open Hidpify once from
+    /Applications — that also sets up the background daemon, which then runs at
+    every login. If macOS ever still blocks it, run once:
+      xattr -dr com.apple.quarantine /Applications/Hidpify.app
 
     Update:      brew upgrade --cask raeseoklee/tap/hidpify
     Remove all:  brew uninstall --zap --cask raeseoklee/tap/hidpify
