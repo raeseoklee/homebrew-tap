@@ -1,6 +1,6 @@
 cask "hidpify" do
-  version "0.1.7"
-  sha256 "649400f7efc8a1611c4961e0a242499554c2727e621cc68cb816b95a8a2501af"
+  version "0.1.8"
+  sha256 "2cdc175339d59319eeae65d1f708f0cd3e03422503f522632d633de785122449"
 
   url "https://github.com/raeseoklee/hidpify/releases/download/v#{version}/Hidpify.app.zip"
   name "Hidpify"
