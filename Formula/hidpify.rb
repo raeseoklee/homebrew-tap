@@ -1,19 +1,20 @@
 class Hidpify < Formula
   desc "Force HiDPI on macOS external displays via a virtual display"
   homepage "https://github.com/raeseoklee/hidpify"
-  url "https://github.com/raeseoklee/hidpify/archive/refs/tags/v0.1.9.tar.gz"
-  sha256 "35ad92df47c081855808741827246c6c1951ff913acb8a0e25381090d230c593"
+  # Ships a prebuilt universal (arm64 + x86_64) binary rather than building from
+  # source: `swift build` needs an up-to-date Xcode Command Line Tools install,
+  # and an outdated/missing one fails the install outright. The binary is ad-hoc
+  # signed at release time and its signature survives Homebrew's copy, so no
+  # toolchain (not even codesign) is required here.
+  url "https://github.com/raeseoklee/hidpify/releases/download/v0.1.9/hidpify-0.1.9-macos-universal.tar.gz"
+  sha256 "b3585e7e738f03dcc3a35b80661438505115be54c4b0567791ecf9ab63c65ce3"
+  version "0.1.9"
   license "Apache-2.0"
-  head "https://github.com/raeseoklee/hidpify.git", branch: "main"
 
-  depends_on :macos
+  depends_on macos: :sonoma
 
   def install
-    system "swift", "build", "--configuration", "release", "--disable-sandbox"
-    bin.install ".build/release/hidpify"
-    # Re-sign after Homebrew relocates the binary so launchd accepts the daemon
-    # (SPM's linker signature is invalidated on copy).
-    system "codesign", "--force", "--sign", "-", bin/"hidpify"
+    bin.install "hidpify"
   end
 
   def caveats
