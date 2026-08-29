@@ -7,7 +7,7 @@ cask "bium" do
   desc "Reclaim disk space on a Mac, honestly"
   homepage "https://github.com/raeseoklee/bium"
 
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Bium.app"
 
