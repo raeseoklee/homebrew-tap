@@ -6,8 +6,8 @@ class Bium < Formula
   # Xcode Command Line Tools install, and an outdated or missing one fails the
   # install outright. The binary is ad-hoc signed at release time and that
   # signature survives Homebrew's copy, so no toolchain is required here.
-  url "https://github.com/raeseoklee/bium/releases/download/v0.1.0/bium-0.1.0-macos-universal.tar.gz"
-  sha256 "927b1782bff445dbf57bb481849b1f31eebbd94362d303f46ca54729e474ce36"
+  url "https://github.com/raeseoklee/bium/releases/download/v0.1.1/bium-0.1.1-macos-universal.tar.gz"
+  sha256 "60726b221c262b44b9c924757ce7b493fa48a4a4c41c7762ddd6028b7042864d"
   license "MIT"
 
   depends_on :macos
