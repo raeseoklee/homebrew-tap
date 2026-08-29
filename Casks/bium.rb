@@ -1,6 +1,6 @@
 cask "bium" do
-  version "0.1.1"
-  sha256 "467ee87a9fdf719a64996f2bc27e68b56e0a5cf7e20a92e63c777e3c2fbab648"
+  version "0.1.2"
+  sha256 "edce95b96977400f72645a4c9259dfedf9e7124287fc5c08d1ded0823cc2713e"
 
   url "https://github.com/raeseoklee/bium/releases/download/v#{version}/Bium.app.zip"
   name "bium"
