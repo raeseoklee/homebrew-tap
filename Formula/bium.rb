@@ -8,7 +8,6 @@ class Bium < Formula
   # signature survives Homebrew's copy, so no toolchain is required here.
   url "https://github.com/raeseoklee/bium/releases/download/v0.1.0/bium-0.1.0-macos-universal.tar.gz"
   sha256 "927b1782bff445dbf57bb481849b1f31eebbd94362d303f46ca54729e474ce36"
-  version "0.1.0"
   license "MIT"
 
   depends_on :macos
