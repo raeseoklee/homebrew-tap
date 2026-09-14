@@ -1,52 +1,52 @@
-# homebrew-tap
+# raeseoklee Homebrew tap
 
-Homebrew tap for [bium](https://github.com/raeseoklee/bium) and
-[hidpify](https://github.com/raeseoklee/hidpify).
+[한국어](README.ko.md)
+
+Homebrew packages for three macOS tools: [bium](https://github.com/raeseoklee/bium) for disk cleanup, [hidpify](https://github.com/raeseoklee/hidpify) for external-display HiDPI, and [SSMV](https://github.com/raeseoklee/ssmv) for reading Markdown.
 
 ```sh
 brew tap raeseoklee/tap
 ```
 
-## bium
+## SSMV — So Simple Markdown Viewer
 
-Reclaims disk space on a Mac. Counts hard links once, never guesses, and reports
-the directories it was not allowed to read instead of calling them empty.
+A native, read-only Markdown viewer for **macOS 13 and later**, built with Swift and AppKit without a web view or third-party packages. Open documents from Finder, switch between files in a collapsible sidebar, use light or dark appearance, and export to PDF. Removing a sidebar entry preserves the original file.
 
 ```sh
-brew install raeseoklee/tap/bium        # command line tool
-brew install --cask raeseoklee/tap/bium # SwiftUI app
+brew install --cask raeseoklee/tap/ssmv
 ```
 
-The two are independent: the app is not a wrapper around the binary, and either
-can be installed on its own.
+[Features, limitations, and source builds](https://github.com/raeseoklee/ssmv). The Universal app supports Apple Silicon and Intel.
+
+## bium
+
+Reclaims disk space on a Mac. Counts hard links once and reports directories it could not read instead of treating them as empty.
+
+```sh
+brew install raeseoklee/tap/bium        # command-line tool
+brew install --cask raeseoklee/tap/bium # SwiftUI app; macOS 14+
+```
+
+The two are independent: the app is not a wrapper around the binary, and either can be installed on its own. [Source and usage](https://github.com/raeseoklee/bium).
 
 ## hidpify
 
-Forces HiDPI on macOS external displays through a virtual display.
+Enables HiDPI on macOS external displays through a virtual display.
 
 ```sh
 brew install raeseoklee/tap/hidpify        # CLI and daemon
-brew install --cask raeseoklee/tap/hidpify # menu bar app
+brew install --cask raeseoklee/tap/hidpify # menu bar app; macOS 14+
 ```
 
-The cask depends on the formula: the menu bar app is a front end, and the
-CLI daemon does the work.
+The cask depends on the formula: the menu bar app is a front end, and the CLI daemon does the work. [Source and usage](https://github.com/raeseoklee/hidpify).
 
-## Notes
+## Signing and installation behavior
 
-**These ship prebuilt binaries.** Both formulae install a universal (arm64 and
-x86_64) binary from a release archive rather than compiling on your machine, so
-no Swift toolchain is needed. The binaries are ad-hoc signed at release time and
-that signature survives Homebrew's copy.
+These packages install prebuilt Universal binaries for Apple Silicon and Intel; installation does not require a Swift toolchain. The current apps are ad-hoc signed, not Developer ID signed or notarized by Apple.
 
-**The casks are not notarized.** Each one clears the quarantine flag in a
-`postflight`. Without it macOS shows an "Apple can't verify … malware" dialog
-whose default button is *Move to Trash*, which deletes the app the user just
-installed.
-
-That `postflight` runs arbitrary code, so Homebrew marks these casks untrusted
-and a plain `brew upgrade` skips them. Upgrade the apps explicitly:
+- **SSMV preserves Gatekeeper quarantine.** Its cask does not clear quarantine or change macOS security settings. macOS may block the first launch. Review [Apple’s app-opening guidance](https://support.apple.com/en-gb/102445) before deciding whether to open it, or [build SSMV from source](https://github.com/raeseoklee/ssmv#build-from-source).
+- **bium and hidpify have existing `postflight` steps that remove the installed app’s quarantine flag.** Those steps alter Gatekeeper’s normal first-launch behavior and are specific to these two casks. Homebrew may classify casks with such steps as untrusted and skip them during a general upgrade; update them explicitly:
 
 ```sh
-brew upgrade --cask bium hidpify
+brew upgrade --cask raeseoklee/tap/bium raeseoklee/tap/hidpify
 ```
