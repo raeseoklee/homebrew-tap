@@ -18,9 +18,6 @@ cask "ssmv" do
     # Verify the ad-hoc bundle before allowing it to open.
     run "/usr/bin/codesign", args: ["--verify", "--strict", "{{appdir}}/SSMV.app"]
     run "/usr/bin/xattr", args: ["-d", "-r", "com.apple.quarantine", "{{appdir}}/SSMV.app"]
-    # Register document claims on fresh installs, not only after the app is opened.
-    run "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister",
-        args: ["-f", "{{appdir}}/SSMV.app"]
   end
 
   uninstall quit: "io.github.irae.ssmv"
@@ -28,6 +25,8 @@ cask "ssmv" do
   zap trash: "~/Library/Preferences/io.github.irae.ssmv.plist"
 
   caveats <<~EOS
+    Open SSMV once after installation to register it in Finder’s Open With menu.
+
     SSMV is ad-hoc signed and not Apple notarized. After checksum and bundle
     signature checks, this cask removes quarantine from SSMV.app only so it
     can launch. This bypasses Gatekeeper's first-launch check for this app;
