@@ -14,6 +14,7 @@ A native, read-only Markdown viewer for **macOS 13 and later**, built with Swift
 
 ```sh
 brew install --cask raeseoklee/tap/ssmv
+open -a SSMV
 ```
 
 [Features, limitations, and source builds](https://github.com/raeseoklee/ssmv). The Universal app supports Apple Silicon and Intel.

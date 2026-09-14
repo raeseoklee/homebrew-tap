@@ -14,6 +14,7 @@ brew tap raeseoklee/tap
 
 ```sh
 brew install --cask raeseoklee/tap/ssmv
+open -a SSMV
 ```
 
 Apple Silicon과 Intel을 모두 지원하는 Universal 앱입니다. 지원 기능과 제한, 소스에서 빌드하는 방법은 [SSMV 한국어 문서](https://github.com/raeseoklee/ssmv/blob/main/docs/README.ko.md)를 참고하세요.
