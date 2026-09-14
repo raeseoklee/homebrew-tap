@@ -44,8 +44,8 @@ The cask depends on the formula: the menu bar app is a front end, and the CLI da
 
 These packages install prebuilt Universal binaries for Apple Silicon and Intel; installation does not require a Swift toolchain. The current apps are ad-hoc signed, not Developer ID signed or notarized by Apple.
 
-- **SSMV preserves Gatekeeper quarantine.** Its cask does not clear quarantine or change macOS security settings. macOS may block the first launch. Review [Apple’s app-opening guidance](https://support.apple.com/en-gb/102445) before deciding whether to open it, or [build SSMV from source](https://github.com/raeseoklee/ssmv#build-from-source).
-- **bium and hidpify have existing `postflight` steps that remove the installed app’s quarantine flag.** Those steps alter Gatekeeper’s normal first-launch behavior and are specific to these two casks. Homebrew may classify casks with such steps as untrusted and skip them during a general upgrade; update them explicitly:
+- **SSMV checks the archive SHA-256 and app signature, then removes quarantine from SSMV.app only.** This allows the ad-hoc build to launch by bypassing Gatekeeper’s first-launch check for this app; it does not provide notarization or change global security settings. A manual download may still be blocked. See [Apple’s app-opening guidance](https://support.apple.com/en-gb/102445) or [build from source](https://github.com/raeseoklee/ssmv#build-from-source).
+- **bium and hidpify have existing `postflight` steps that remove the installed app’s quarantine flag.** These two casks use legacy Ruby flight blocks, which alter Gatekeeper’s normal first-launch behavior. Homebrew may classify casks with such steps as untrusted and skip them during a general upgrade; update them explicitly:
 
 ```sh
 brew upgrade --cask raeseoklee/tap/bium raeseoklee/tap/hidpify
