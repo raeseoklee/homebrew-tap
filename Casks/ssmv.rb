@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 cask "ssmv" do
-  version "0.1.1"
-  sha256 "b5560522b0028f88d352cfa648b4c0a9d70e9c43363da417de35510b814c038e"
+  version "0.1.2"
+  sha256 "873e5033f3acd5170ba48734d6c25a38573cad2ca99305d9a2dcd2aa53b56ddc"
 
   url "https://github.com/raeseoklee/ssmv/releases/download/v#{version}/SSMV-#{version}.zip"
   name "SSMV"
