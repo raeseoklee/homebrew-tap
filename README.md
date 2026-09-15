@@ -10,7 +10,9 @@ brew tap raeseoklee/tap
 
 ## SSMV — So Simple Markdown Viewer
 
-A native, read-only Markdown viewer for **macOS 13 and later**, built with Swift and AppKit without a web view or third-party packages. Open documents from Finder, switch between files in a collapsible sidebar, use light or dark appearance, and export to PDF with progress and cancellation while continuing to read. Removing a sidebar entry preserves the original file. Expand a file to navigate its heading tree. Add, remove, and outline controls sit beside Documents; the outline toggle persists across launches. Open SSMV once after installation to register it for Finder’s Open With menu. Full-screen controls hide until the pointer reaches the top edge. At launch, SSMV checks this tap at most daily and offers copyable Homebrew upgrade commands for new versions; it does not download or install app updates itself.
+A lightweight Markdown viewer for **macOS 13 and later**. Open documents from Finder, navigate files and headings in a collapsible sidebar, and export to PDF. Supports light and dark modes, built with Swift and AppKit.
+
+![SSMV with its document outline](https://raw.githubusercontent.com/raeseoklee/ssmv/main/docs/images/ssmv-sidebar-9450b1ce.png)
 
 ```sh
 brew install --cask raeseoklee/tap/ssmv
