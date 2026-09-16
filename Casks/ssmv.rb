@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 cask "ssmv" do
-  version "0.4.0"
-  sha256 "2e27767924bd8252a15aa6c3e272e5872c2db63f300415301a72d274ef40cf73"
+  version "0.5.0"
+  sha256 "a15ce8e8b8f6e9768e38b3008c1d3d7eaf41cf0108443a7dca90c00906a745f2"
 
   url "https://github.com/raeseoklee/ssmv/releases/download/v#{version}/SSMV-#{version}.zip"
   name "SSMV"
@@ -13,6 +13,7 @@ cask "ssmv" do
   depends_on macos: :ventura
 
   app "SSMV.app"
+  binary "#{appdir}/SSMV.app/Contents/MacOS/SSMVCLI", target: "ssmv"
 
   # The ad-hoc release is not notarized. Verify the bundle before allowing it
   # to open, matching this tap's existing app distribution behavior.

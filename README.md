@@ -17,7 +17,11 @@ A lightweight Markdown viewer for **macOS 13 and later**. Open documents from Fi
 ```sh
 brew install --cask raeseoklee/tap/ssmv
 open -a SSMV
+ssmv notes.md
+printf '# Review\n\nReady to read.\n' | ssmv - --title "Review"
 ```
+
+The cask also installs `ssmv` for local files, public HTTPS Markdown, and completed text from an LLM tool. In the app, use **File → Open URL…** or **Open Clipboard as Markdown**.
 
 [Features, limitations, and source builds](https://github.com/raeseoklee/ssmv). The Universal app supports Apple Silicon and Intel.
 

@@ -17,7 +17,11 @@ brew tap raeseoklee/tap
 ```sh
 brew install --cask raeseoklee/tap/ssmv
 open -a SSMV
+ssmv notes.md
+printf '# Review\n\nReady to read.\n' | ssmv - --title "Review"
 ```
+
+cask를 설치하면 `ssmv` 명령도 함께 설치됩니다. 로컬 파일, 공개 HTTPS Markdown 주소, LLM 도구가 출력한 텍스트를 열 수 있습니다. 앱에서는 **File → Open URL…**이나 **Open Clipboard as Markdown**을 선택하세요.
 
 Apple Silicon과 Intel을 모두 지원하는 Universal 앱입니다. 지원 기능과 제한, 소스에서 빌드하는 방법은 [SSMV 한국어 문서](https://github.com/raeseoklee/ssmv/blob/main/docs/README.ko.md)를 참고하세요.
 
