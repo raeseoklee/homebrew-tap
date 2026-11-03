@@ -10,7 +10,7 @@ brew tap raeseoklee/tap
 
 ## SSMV — So Simple Markdown Viewer
 
-A lightweight Markdown viewer for **macOS 13 and later**. Open documents from Finder, navigate files and headings in a collapsible sidebar, and export to PDF. Supports light and dark modes, built with Swift and AppKit.
+A lightweight Markdown viewer for **macOS 13 and later**. Open documents from Finder, navigate files and headings in a collapsible sidebar, and export to PDF. Supports light and dark modes, built with Swift and AppKit. Mermaid diagrams render offline and are included in PDF exports; diagram modules load only when needed.
 
 ![SSMV with its document outline](https://raw.githubusercontent.com/raeseoklee/ssmv/main/docs/images/ssmv-sidebar-9450b1ce.png)
 
