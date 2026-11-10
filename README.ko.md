@@ -10,7 +10,7 @@ brew tap raeseoklee/tap
 
 ## SSMV — So Simple Markdown Viewer
 
-**macOS 13 이상**에서 쓰는 가벼운 Markdown 뷰어입니다. Finder에서 문서를 열고, 사이드바의 파일 목록과 제목별 목차로 탐색하고, PDF로 저장하세요. 라이트·다크 모드를 지원하며 Swift와 AppKit으로 만들었습니다. Mermaid 다이어그램은 오프라인에서 표시되고 PDF에도 포함됩니다. 다이어그램 모듈은 필요할 때만 불러옵니다.
+**macOS 13 이상**에서 쓰는 가벼운 Markdown 뷰어입니다. Finder에서 문서를 열고, 원본 파일을 옮기지 않고 사이드바의 카테고리로 정리하고, 문서 목차를 탐색한 뒤, PDF로 저장하세요. 라이트·다크 모드를 지원하며 Swift와 AppKit으로 만들었습니다. Mermaid 다이어그램은 오프라인에서 표시되고 PDF에도 포함됩니다. 다이어그램 모듈은 필요할 때만 불러옵니다.
 
 ![SSMV with its document outline](https://raw.githubusercontent.com/raeseoklee/ssmv/main/docs/images/ssmv-sidebar-9450b1ce.png)
 
